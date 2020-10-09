@@ -26,7 +26,7 @@ class Column
     {
         $this->heading = $heading;
         $this->attribute = $attribute ?? Str::snake(Str::lower($heading));
-        $this->sort = $sort;
+        $this->sort = $sort ?? $this->attribute;
     }
 
     public function __get($property)
