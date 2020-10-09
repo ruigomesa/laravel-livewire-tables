@@ -2,10 +2,7 @@
     <div class="row justify-content-between">
         <div class="col-auto order-last order-md-first">
             <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                </div>
-                <input type="search" class="form-control" placeholder="{{ __('Search') }}" wire:model="search">
+                <input type="search" class="form-control k-textbox" placeholder="{{ __('Procurar') }}" wire:model="search">
             </div>
         </div>
         @if($header_view)
@@ -18,12 +15,12 @@
     <div class="card mb-3">
         @if($models->isEmpty())
             <div class="card-body">
-                {{ __('No results to display.') }}
+                {{ __('Sem resultadoss para mostrar.') }}
             </div>
         @else
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table {{ $table_class }} mb-0">
+                    <table class="table {{ $table_class }} mb-0 table-sm">
                         <thead class="{{ $thead_class }}">
                         <tr>
                             @if($checkbox && $checkbox_side == 'left')
@@ -33,10 +30,10 @@
                             @foreach($columns as $column)
                                 <th class="align-middle text-nowrap border-top-0 {{ $this->thClass($column->attribute) }}">
                                     @if($column->sortable)
-                                        <span style="cursor: pointer;" wire:click="sort('{{ $column->attribute }}')">
+                                        <span style="cursor: pointer;" wire:click="sort('{{ $column->sort ?? $column->attribute }}')">
                                             {{ $column->heading }}
 
-                                            @if($sort_attribute == $column->attribute)
+                                            @if($sort_attribute == $column->sort ?? $column->attribute)
                                                 <i class="fa fa-sort-amount-{{ $sort_direction == 'asc' ? 'up-alt' : 'down' }}"></i>
                                             @else
                                                 <i class="fa fa-sort-amount-up-alt" style="opacity: .35;"></i>
@@ -93,3 +90,4 @@
         @endif
     </div>
 </div>
+
