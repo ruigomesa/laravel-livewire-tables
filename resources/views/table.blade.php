@@ -5,29 +5,29 @@
                 <input type="search" class="form-control k-textbox" placeholder="{{ __('Procurar') }}" wire:model="search">
             </div>
         </div>
+         @if($this->export_filename)
+            <div class="col-md-auto mb-3">
+                @if (in_array('csv', $exports, true))
+                    <a class="btn bnt-sm btn-outline-success" href="#" wire:click.prevent="export('csv')">CSV</a>
+                @endif
+
+                @if (in_array('xls', $exports, true))
+                    <a class="btn bnt-sm btn-outline-success" href="#" wire:click.prevent="export('xls')">XLS</a>
+                @endif
+
+                @if (in_array('xlsx', $exports, true))
+                    <a class="btn bnt-sm btn-outline-success" href="#" wire:click.prevent="export('xlsx')">XLSX</a>
+                @endif
+
+                @if (in_array('pdf', $exports, true))
+                    <a class="btn bnt-sm btn-outline-success" href="#" wire:click.prevent="export('pdf')">PDF</a>
+                @endif
+            </div>
+        @endif
         @if($header_view)
             <div class="col-md-auto mb-3">
                 @include($header_view)
             </div>
-        @endif
-        @if($this->export_filename)
-        <div class="col-md-auto mb-3">
-            @if (in_array('csv', $exports, true))
-                <a class="" href="#" wire:click.prevent="export('csv')">CSV</a>
-            @endif
-
-            @if (in_array('xls', $exports, true))
-                <a class="" href="#" wire:click.prevent="export('xls')">XLS</a>
-            @endif
-
-            @if (in_array('xlsx', $exports, true))
-                <a class="" href="#" wire:click.prevent="export('xlsx')">XLSX</a>
-            @endif
-
-            @if (in_array('pdf', $exports, true))
-                <a class="" href="#" wire:click.prevent="export('pdf')">PDF</a>
-            @endif
-        </div>
         @endif
     </div>
 
