@@ -1,93 +1,66 @@
-<div>
-    <div class="row justify-content-between">
-        <div class="col-auto order-last order-md-first">
-            <div class="input-group mb-3">
-                <input type="search" class="form-control k-textbox" placeholder="{{ __('Procurar') }}" wire:model="search">
-            </div>
-        </div>
-        @if($header_view)
-            <div class="col-md-auto mb-3">
-                @include($header_view)
-            </div>
-        @endif
-    </div>
+<?php
 
-    <div class="card mb-3">
-        @if($models->isEmpty())
-            <div class="card-body">
-                {{ __('Sem resultadoss para mostrar.') }}
-            </div>
-        @else
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table {{ $table_class }} mb-0 table-sm">
-                        <thead class="{{ $thead_class }}">
-                        <tr>
-                            @if($checkbox && $checkbox_side == 'left')
-                                @include('laravel-livewire-tables::checkbox-all')
-                            @endif
+namespace Kdion4891\LaravelLivewireTables;
 
-                            @foreach($columns as $column)
-                                <th class="align-middle text-nowrap border-top-0 {{ $this->thClass($column->attribute) }}">
-                                    @if($column->sortable)
-                                        <span style="cursor: pointer;" wire:click="sort('{{ $column->sort ?? $column->attribute }}')">
-                                            {{ $column->heading }}
+use Illuminate\Support\Str;
 
-                                            @if($sort_attribute == $column->sort ?? $column->attribute)
-                                                <i class="fa fa-sort-amount-{{ $sort_direction == 'asc' ? 'up-alt' : 'down' }}"></i>
-                                            @else
-                                                <i class="fa fa-sort-amount-up-alt" style="opacity: .35;"></i>
-                                            @endif
-                                        </span>
-                                    @else
-                                        {{ $column->heading }}
-                                    @endif
-                                </th>
-                            @endforeach
+/**
+ * @property string $heading
+ * @property string $attribute
+ * @property boolean $searchable
+ * @property boolean $sortable
+ * @property callable $sortCallback
+ * @property string $view
+ */
+class Column
+{
+    protected $heading;
+    protected $sort;
+    protected $attribute;
+    protected $searchable = false;
+    protected $sortable = false;
+    protected $sortCallback;
+    protected $view;
 
-                            @if($checkbox && $checkbox_side == 'right')
-                                @include('laravel-livewire-tables::checkbox-all')
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($models as $model)
-                            <tr class="{{ $this->trClass($model) }}">
-                                @if($checkbox && $checkbox_side == 'left')
-                                    @include('laravel-livewire-tables::checkbox-row')
-                                @endif
+    public function __construct($heading, $attribute, $sort)
+    {
+        $this->heading = $heading;
+        $this->attribute = $attribute ?? Str::snake(Str::lower($heading));
+        $this->sort = $sort;
+    }
 
-                                @foreach($columns as $column)
-                                    <td class="align-middle {{ $this->tdClass($column->attribute, $value = Arr::get($model->toArray(), $column->attribute)) }}">
-                                        @if($column->view)
-                                            @include($column->view)
-                                        @else
-                                            {{ $value }}
-                                        @endif
-                                    </td>
-                                @endforeach
+    public function __get($property)
+    {
+        return $this->$property;
+    }
 
-                                @if($checkbox && $checkbox_side == 'right')
-                                    @include('laravel-livewire-tables::checkbox-row')
-                                @endif
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        @endif
-    </div>
+    public static function make($heading = null, $attribute = null, $sort = null)
+    {
+        return new static($heading, $attribute, $sort);
+    }
 
-    <div class="row justify-content-between">
-        <div class="col-auto">
-            {{ $models->links() }}
-        </div>
-        @if($footer_view)
-            <div class="col-md-auto">
-                @include($footer_view)
-            </div>
-        @endif
-    </div>
-</div>
+    public function searchable()
+    {
+        $this->searchable = true;
+        return $this;
+    }
+
+    public function sortable()
+    {
+        $this->sortable = true;
+        return $this;
+    }
+
+    public function sortUsing(callable $callback)
+    {
+        $this->sortCallback = $callback;
+        return $this;
+    }
+
+    public function view($view)
+    {
+        $this->view = $view;
+        return $this;
+    }
+}
 
