@@ -62,5 +62,9 @@ class Column
         $this->view = $view;
         return $this;
     }
+    public function getAttribute($attribute)
+    {
+        return $this->$attribute ?? "";   
+    }
 }
 
