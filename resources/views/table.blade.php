@@ -34,7 +34,7 @@
     <div class="card mb-3">
         @if($models->isEmpty())
             <div class="card-body">
-                {{ __('Sem resultadoss para mostrar.') }}
+                {{ __('Sem resultados para mostrar.') }}
             </div>
         @else
             <div class="card-body p-0">
