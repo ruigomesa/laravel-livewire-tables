@@ -127,7 +127,7 @@ class TableComponent extends Component
             return app()->call($column->sortCallback, ['models' => $models, 'sort_attribute' => $sort_attribute, 'sort_direction' => $this->sort_direction]);
         }
         if (Str::contains($this->sort_attribute, '.')) {
-              return $models->sortBy($sort_attribute,SORT_REGULAR,($this->sort_direction=='asc' ? false : true);
+              return $models->sortBy($sort_attribute,SORT_REGULAR,($this->sort_direction=='asc' ? false : true));
                                      }
         return $models->orderBy($sort_attribute, $this->sort_direction);
     }
