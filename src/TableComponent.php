@@ -116,8 +116,9 @@ class TableComponent extends Component
         }
 
         if (Str::contains($this->sort_attribute, '.')) {
-            $relationship = $this->relationship($this->sort_attribute);
-            $sort_attribute = $this->attribute($models, $relationship->name, $relationship->attribute);
+           // $relationship = $this->relationship($this->sort_attribute);
+            //$sort_attribute = $this->attribute($models, $relationship->name, $relationship->attribute);
+            $sort_attribute = $this->sort_attribute;
         }
         else {
             $sort_attribute = $this->sort_attribute;
@@ -126,9 +127,9 @@ class TableComponent extends Component
         if (($column = $this->getColumnByAttribute($this->sort_attribute)) !== null && is_callable($column->sortCallback)) {
             return app()->call($column->sortCallback, ['models' => $models, 'sort_attribute' => $sort_attribute, 'sort_direction' => $this->sort_direction]);
         }
-        if (Str::contains($this->sort_attribute, '.')) {
-              return $models->get()->sortBy($sort_attribute,SORT_REGULAR,($this->sort_direction=='asc' ? false : true));
-                                     }
+       // if (Str::contains($this->sort_attribute, '.')) {
+       //       return $models->get()->sortBy($sort_attribute,SORT_REGULAR,($this->sort_direction=='asc' ? false : true));
+       //                              }
         return $models->orderBy($sort_attribute, $this->sort_direction);
     }
 
