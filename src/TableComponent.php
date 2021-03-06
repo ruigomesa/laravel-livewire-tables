@@ -116,9 +116,9 @@ class TableComponent extends Component
         }
 
         if (Str::contains($this->sort_attribute, '.')) {
-           // $relationship = $this->relationship($this->sort_attribute);
-            //$sort_attribute = $this->attribute($models, $relationship->name, $relationship->attribute);
-            $sort_attribute = $this->sort_attribute;
+           $relationship = $this->relationship($this->sort_attribute);
+           $sort_attribute = $this->attribute($models, $relationship->name, $relationship->attribute);
+           // $sort_attribute = $this->sort_attribute;
         }
         else {
             $sort_attribute = $this->sort_attribute;
